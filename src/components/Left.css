@@ -1,0 +1,60 @@
+/* Handle the left side bar */
+.left {
+    width: 4rem;
+    height: 100vh;
+    padding: 15px 0px;
+    background: linear-gradient(to bottom, #0177ba, #2dc3b6);
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Logo */
+  .left > .logo {
+    color: #1d3557;
+    font-weight: bold;
+    margin-bottom: 25px;
+  }
+  
+  /* Icons side */
+  .left > .left-icons {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px 0px;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+  
+  .left > .left-icons > div > .icon {
+    color: white;
+    font-size: 35px;
+    transition: 0.3s ease;
+  }
+  
+  .left > .left-icons > div > .icon:hover {
+    color: #1d3557;
+  }
+  
+  .rootElm {
+    position: relative;
+    transition: 0.3s ease;
+  }
+  
+  .rightelm {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    background-color: white;
+    right: -27px;
+    top: 0;
+    transform: rotate(45deg);
+    top: 25%;
+  }
+.selected{
+    color:#1d3557 !important;
+}

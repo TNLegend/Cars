@@ -1,0 +1,70 @@
+/* Handle the right side */
+.right {
+  flex: 1;
+  max-height: 100vh;
+  padding: 15px;
+
+ 
+}
+
+/* Handle the top right button */
+.right > .top-right-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 5px 0px;
+  padding-left: 25px;
+  background: linear-gradient(to right, #2dc3b6, #0177ba);
+  border-bottom-left-radius: 50px;
+}
+
+.right > .top-right-btn > .icon-btn {
+  color: white;
+}
+/* Handle the top side */
+.top-side {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: fit-content;
+  
+  
+}
+
+/* Handle the top side title */
+.top-side > .top-title {
+  margin: 25px 0px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #0177ba;
+}
+
+/* Handle the top-bottom side */
+.top-bottom {
+  margin-top: 35px;
+  display: flex;
+  align-items: center;
+}
+
+/* Hande the top-bottom-left side */
+.top-bottom-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Handle the top-bottom-right side */
+.top-bottom-right {
+  width: 6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.right-bottom {
+  flex:1;
+  display: flex;
+  
+  width: 100%;
+}
