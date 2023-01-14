@@ -1,10 +1,10 @@
 /* Handle the right side */
 .right {
   flex: 1;
+  display: flex;
+  flex-direction: column;
   max-height: 100vh;
   padding: 15px;
-
- 
 }
 
 /* Handle the top right button */
@@ -24,11 +24,10 @@
 /* Handle the top side */
 .top-side {
   display: flex;
+  margin-bottom: 25px;
   flex-direction: column;
   width: 100%;
   height: fit-content;
-  
-  
 }
 
 /* Handle the top side title */
@@ -62,9 +61,26 @@
   align-items: center;
   justify-content: space-between;
 }
+
 .right-bottom {
-  flex:1;
+  flex: 1;
+}
+
+.header {
+  color: #0177ba;
+  font-weight: bold !important;
+}
+
+.row-bg {
+  background-color: #ebebeb !important;
+  color: #075d8f;
+}
+
+.pagination-bottom {
+  width: fit-content;
+  height: 3rem;
+  background-color: rgba(1, 119, 188, 0.5);
+  border-radius: 10px;
   display: flex;
-  
-  width: 100%;
+  align-items: center;
 }

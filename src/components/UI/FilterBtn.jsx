@@ -4,12 +4,20 @@ import { styled, alpha } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import EditIcon from "@mui/icons-material/Edit";
-import Divider from "@mui/material/Divider";
-import ArchiveIcon from "@mui/icons-material/Archive";
-import FileCopyIcon from "@mui/icons-material/FileCopy";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Box, Typography } from "@mui/material";
+
+const menuItems = [
+  "Type",
+  "Num de vehicule",
+  "Matricule",
+  "Marque",
+  "Modéle",
+  "Puissance",
+  "Nb de cheveaux",
+  "Couleur",
+  "Annee",
+];
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -54,18 +62,33 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function FilterBtn() {
+export default function FilterBtn({ setFilter, filter }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+
+  const handleClose = (item) => {
+    if (menuItems.includes(item)){
+    setFilter(item);}
+    else
+    setFilter("Filtres");
     setAnchorEl(null);
   };
 
   return (
-    <div>
+    <Box
+      sx={{
+        borderBottom: "2px #2dc3b6 solid",
+        display: "flex",
+        alignItems: "center",
+        transform: "translateY(37%)",
+        paddingRight: "35px",
+        borderBottomRightRadius: "35px",
+        borderLeft: "2px #2dc3b6 solid",
+      }}
+    >
       <Button
         id="demo-customized-button"
         aria-controls={open ? "demo-customized-menu" : undefined}
@@ -77,7 +100,7 @@ export default function FilterBtn() {
         onClick={handleClick}
         endIcon={<KeyboardArrowDownIcon sx={{ color: "#2dc3b6" }} />}
       >
-        Filtres
+        {filter}
       </Button>
       <StyledMenu
         id="demo-customized-menu"
@@ -88,24 +111,16 @@ export default function FilterBtn() {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose} disableRipple>
-          <EditIcon />
-          Edit
-        </MenuItem>
-        <MenuItem onClick={handleClose} disableRipple>
-          <FileCopyIcon />
-          Duplicate
-        </MenuItem>
-        <Divider sx={{ my: 0.5 }} />
-        <MenuItem onClick={handleClose} disableRipple>
-          <ArchiveIcon />
-          Archive
-        </MenuItem>
-        <MenuItem onClick={handleClose} disableRipple>
-          <MoreHorizIcon />
-          More
-        </MenuItem>
+        {menuItems.map((item, key) => (
+          <MenuItem
+            onClick={handleClose.bind(this, item)}
+            disableRipple
+            key={key}
+          >
+            <Typography>{item}</Typography>
+          </MenuItem>
+        ))}
       </StyledMenu>
-    </div>
+    </Box>
   );
 }

@@ -1,56 +1,77 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Right.css";
-import { Box, IconButton, Typography, Tooltip } from "@mui/material";
-import { Menu, Delete, AddCircleOutline } from "@mui/icons-material";
+import {
+  Box,
+  IconButton,
+  Typography,
+  Tooltip,
+  Pagination,
+  PaginationItem,
+  Button,
+} from "@mui/material";
+import {
+  Menu,
+  Delete,
+  AddCircleOutline,
+  SkipNext,
+  SkipPrevious,
+} from "@mui/icons-material";
 import SearchUI from "./UI/SearchUI";
 import FilterBtn from "./UI/FilterBtn";
 import { DataGrid } from "@mui/x-data-grid";
-
-const columns = [
-  { field: "id", headerName: "ID", width: 90 },
-  {
-    field: "firstName",
-    headerName: "First name",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "lastName",
-    headerName: "Last name",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    width: 110,
-    editable: true,
-  },
-  {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-  },
-];
-
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
+import { columns, rows } from "./util/data";
 
 const Right = () => {
+  const [data, setData] = useState(rows); // Handle the data before and after search
+  const [filter, setFilter] = useState("Filtres"); // Handle the filter type
+  const [searchTxt, setSearchTxt] = useState(""); // Handle the search text
+  let row = rows.length % 6 === 0 ? rows.length/6 : Math.floor(rows.length/6) +1; 
+  const [rowsCount,setRowsCount]=useState(row);
+  // handle searchFiltering
+  useEffect(() => {
+    if (!filter) {
+      return;
+    }
+    const newData = rows.filter((item) => {
+      switch (filter) {
+        case "Type": {
+          return item.type.toLowerCase().includes(searchTxt);
+        }
+        case "Num de vehicule": {
+          return item.numVehicule.toLowerCase().includes(searchTxt);
+        }
+        case "Matricule": {
+          return item.matricule.toLowerCase().includes(searchTxt);
+        }
+        case "Marque": {
+          return item.marque.toLowerCase().includes(searchTxt);
+        }
+        case "Modéle": {
+          return item.modele.toLowerCase().includes(searchTxt);
+        }
+        case "Puissance": {
+          return item.puissance.toLowerCase().includes(searchTxt);
+        }
+        case "Nb de cheveaux": {
+          return item.nbCheveaux.toLowerCase().includes(searchTxt);
+        }
+        case "Couleur": {
+          return item.couleur.toLowerCase().includes(searchTxt);
+        }
+        case "Annee": {
+          return item.annee.toLowerCase().includes(searchTxt);
+        }
+        default:
+          return true;
+      }
+    });
+    setData(newData);
+    setRowsCount(newData.length % 6 === 0 ? newData.length/6 : Math.floor(newData.length/6) +1)
+  }, [searchTxt,filter]);
+
+  const handleSearchTextChange = (e) => {
+    setSearchTxt(e.toLowerCase());
+  };
   return (
     <Box className="right">
       {/* Define top right button */}
@@ -64,8 +85,8 @@ const Right = () => {
         <Typography className="top-title">Liste des véhicules</Typography>
         <Box className="top-bottom ">
           <Box className="top-bottom-left">
-            <SearchUI />
-            <FilterBtn />
+            <SearchUI setSearchTxt={handleSearchTextChange} />
+            <FilterBtn setFilter={setFilter} filter={filter} />
           </Box>
 
           <Box className="top-bottom-right">
@@ -86,9 +107,65 @@ const Right = () => {
       </Box>
       {/* Define the right bottom side */}
       <Box className="right-bottom">
-      
+        <DataGrid
+          rows={data}
+          columns={columns}
+          pageSize={6}
+          rowsPerPageOptions={[5]}
+          checkboxSelection
+          disableSelectionOnClick
+          experimentalFeatures={{ newEditingApi: true }}
+          getRowClassName={() => "row-bg"}
+          components={{
+            Pagination: () => {
+              return (
+                <Box className="pagination-bottom">
+                  <Pagination
+                    count={rowsCount}
+                    size="small"
+                    renderItem={(item) => (
+                      <PaginationItem
+                        slots={{
+                          previous: () => (
+                            
+                              <SkipPrevious size="small" />
+                            
+                          ),
+                          next: () => (
+                            
+                              <SkipNext size="small" />
+                            
+                          ),
+                        }}
+                        {...item}
+
+
+                      />
+                    )}
+                  />
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Typography sx={{ color: "#075d8f" }}>
+                      Aller a la page
+                    </Typography>
+                    <Typography
+                      sx={{
+                        backgroundColor: "#fff",
+                        padding: "5px 7px",
+                        margin: "0 10px",
+                        borderRadius: "7px",
+                        border: "2px solid #075d8f",
+                      }}
+                    >
+                      20
+                    </Typography>
+                    <Button endIcon={<SkipNext />}>Aller</Button>
+                  </Box>
+                </Box>
+              );
+            },
+          }}
+        />
       </Box>
-    
     </Box>
   );
 };
